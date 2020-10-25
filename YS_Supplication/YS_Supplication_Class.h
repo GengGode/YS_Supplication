@@ -16,8 +16,8 @@ namespace ysc
 	{
 		int x;
 		int y;
-
-		MouseParam(int _x,int _y):x(_x),y(_y){}
+		bool leftflag = false;
+		MouseParam(int _x, int _y) :x(_x), y(_y) {}
 	};
 
 	//class YS_Supplication_Obj {};
@@ -45,7 +45,12 @@ namespace ysc
 		void exit();
 	private:
 		void matToMainMat(Mat img);
-
+		bool isExistFouStar();
+		bool isExistFivStar();
+		bool isTiggerFouStarSecurity();
+		bool isTiggerFivStarSecurity();
+		int existFouStar();
+		int existFivStar();
 	public:
 
 	private:
@@ -62,9 +67,12 @@ namespace ysc
 		unsigned int width = 0;
 		unsigned int height = 0;
 
-		MouseParam mouseParam= MouseParam(0, 0);
+		MouseParam mouseParam = MouseParam(0, 0);
 
 		VideoCapture tmpVid;
+
+		int lis[100] = { -1 };
+		int p = 0;
 
 		string thrStarMp4 = ".\\Res\\ÈýÐÇ.mp4";
 		string fouStarMp4 = ".\\Res\\ËÄÐÇ.mp4";
