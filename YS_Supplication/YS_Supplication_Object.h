@@ -1,4 +1,5 @@
 #include <iostream>
+#include <time.h>
 using namespace std;
 
 namespace ysc
@@ -164,7 +165,7 @@ namespace ysc
 	class ProbabilityList
 	{
 	public:
-		ProbabilityList() :ProbabilityList(3, new float[3]{ 0.943f,0.051f,0.006f }) {}
+		ProbabilityList() :ProbabilityList(3, new float[3]{ 0.943f,0.051f,0.006f }) { srand(time(NULL)); }
 
 		~ProbabilityList()
 		{

@@ -60,34 +60,38 @@ void ysc::YS_Supplication_Class::checkTask()
 	p++;
 
 	lis[p] = pL.getRandKlass();
-	if (isTiggerFouStarSecurity())
+	if (lis[p] == 0)
 	{
-		cout << "触发四星保底" << endl;
-		lis[p] = 1;
+		if (isTiggerFouStarSecurity())
+		{
+			cout << "触发四星保底" << endl;
+			lis[p] = 1;
+		}
+		if (isTiggerFivStarSecurity())
+		{
+			cout << "触发五星保底" << endl;
+			lis[p] = 2;
+		}
 	}
-	if (isTiggerFivStarSecurity())
-	{
-		cout << "触发五星保底" << endl;
-		lis[p] = 2;
-	}
+
 	k = lis[p];
 
 	switch (k)
 	{
 	case 0:
-	{		cout << thrStarMp4 << endl;
-	tmpVid.open(thrStarMp4);
+	{	cout << "Count: "<<p<<" "<<thrStarMp4 << endl;
+		tmpVid.open(thrStarMp4);
 	break;
 	}
 	case 1:
 	{
-		cout << fouStarMp4 << endl;
+		cout << "Count: " << p << " " << fouStarMp4 << endl;
 		tmpVid.open(fouStarMp4);
 		break;
 	}
 	case 2:
 	{
-		cout << fivStarMp4 << endl;
+		cout << "Count: " << p << " " << fivStarMp4 << endl;
 		tmpVid.open(fivStarMp4);
 		break;
 	}
