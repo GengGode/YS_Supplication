@@ -31,7 +31,7 @@ void ysc::SetDesktop(char FormName[])
 void ysc::YS_Supplication_Class::init()
 {
 	loadConfigure();
-	tmpVid.open("C:\\Users\\GengG\\Videos\\OBS\\2020-10-22 18-34-07.mp4");
+	//tmpVid.open(".\\Res\\五星.mp4");
 	mainDrawCDC = Mat(height,width, CV_8UC3);
 	mainDrawCDC = initializeColor;
 	namedWindow(mainName);
@@ -48,14 +48,54 @@ bool ysc::YS_Supplication_Class::isRunning() const
 
 void ysc::YS_Supplication_Class::show()
 {
-	drawLable();
-	cout << mouseParam.x << " " << mouseParam.y << endl;
+	//drawLable();
+	//cout << mouseParam.x << " " << mouseParam.y << endl;
 	imshow(mainName, mainDrawCDC);
 }
 
 /*  */
 void ysc::YS_Supplication_Class::checkTask()
 {
+	int k = 0;
+	p++;
+
+	lis[p] = pL.getRandKlass();
+	if (isTiggerFouStarSecurity())
+	{
+		cout << "触发四星保底" << endl;
+		lis[p] = 1;
+	}
+	if (isTiggerFivStarSecurity())
+	{
+		cout << "触发五星保底" << endl;
+		lis[p] = 2;
+	}
+	k = lis[p];
+
+	switch (k)
+	{
+	case 0:
+	{		cout << thrStarMp4 << endl;
+	tmpVid.open(thrStarMp4);
+	break;
+	}
+	case 1:
+	{
+		cout << fouStarMp4 << endl;
+		tmpVid.open(fouStarMp4);
+		break;
+	}
+	case 2:
+	{
+		cout << fivStarMp4 << endl;
+		tmpVid.open(fivStarMp4);
+		break;
+	}
+	default:
+		tmpVid.open(thrStarMp4);
+		break;
+	}
+	supplicationMode1Flag = true;
 
 }
 
@@ -105,10 +145,66 @@ void ysc::YS_Supplication_Class::fullScreen()
 
 void ysc::YS_Supplication_Class::supplicationMode1()
 {
+	//流星
+	//物品
+	//无总览
+	if (supplicationMode1Flag==false || supplicationMode10Flag)
+	{
+		return;
+	}
+	else
+	{
+		supplicationMode1Flag = false;
+		supplicationMode10Flag = false;
+	}
+	double t = 0;
+	int dt = 0;
+	VideoCapture vid;
+	Mat img;
+	vid = tmpVid;
+	vid >> img;
+	while (!img.empty())
+	{
+		t = (double)cv::getTickCount();
+		imshow(mainName, mainDrawCDC);
+		matToMainMat(img);
+		vid >> img;
+		dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency()*1000);
+		if (dt<33)
+		{
+			if (dt > 0)
+			{
+				waitKey(33 - dt);
+			}
+		}
+		//cout << mouseParam.x << " " << mouseParam.y << endl;
+		if (mouseParam.leftflag)
+		{
+			//1400 860 -200 860 //1500 60 -100 60
+			if (mouseParam.x > (width - 100) && mouseParam.y <  60)
+			{
+				waitKey(100);
+				break;
+			}
+		}
+		//waitKey()
+	}
 }
 
 void ysc::YS_Supplication_Class::supplicationMode10()
 {
+	//流星
+	//物品
+	//总览
+	if (supplicationMode1Flag || supplicationMode10Flag== false)
+	{
+		return;
+	}
+	else
+	{
+		supplicationMode1Flag = false;
+		supplicationMode10Flag = false;
+	}
 }
 
 void ysc::YS_Supplication_Class::drawLable()
@@ -117,15 +213,7 @@ void ysc::YS_Supplication_Class::drawLable()
 	tmpVid >> tmp;//mainDrawCDC;
 	if (!tmp.empty())
 	{
-		if (tmp.size().width == mainDrawCDC.size().width&&tmp.size().height == mainDrawCDC.size().height)
-		{
-			mainDrawCDC = tmp;
-		}
-		else
-		{
-			resize(tmp, mainDrawCDC, mainDrawCDC.size());
-		}
-		//resize(tmp, mainDrawCDC, mainDrawCDC.size());
+		matToMainMat(tmp);
 	}
 	
 }
@@ -135,9 +223,146 @@ void ysc::YS_Supplication_Class::onMouseCallFunA(int event, int x, int y, int fl
 	MouseParam& par = *(MouseParam*)param;
 	par.x = x;
 	par.y = y;
+	switch (event)
+	{
+	case EVENT_LBUTTONDOWN:
+	{
+		par.leftflag = true;
+		break;
+	}
+	case EVENT_LBUTTONUP:
+	{
+		par.leftflag = false;
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void ysc::YS_Supplication_Class::exit()
 {
 	isRunningFlag = false;
+}
+
+void ysc::YS_Supplication_Class::matToMainMat(Mat img)
+{
+	if (img.size().width == mainDrawCDC.size().width&&img.size().height == mainDrawCDC.size().height)
+	{
+		mainDrawCDC = img;
+	}
+	else
+	{
+		resize(img, mainDrawCDC, mainDrawCDC.size());
+	}
+}
+
+bool ysc::YS_Supplication_Class::isExistFouStar()
+{
+	if (p >= 10)
+	{
+		for (int i = p - 10; i < p; p++)
+		{
+			if (lis[i] == 1)
+			{
+				return true;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < p; i++)
+		{
+			if (lis[i] == 1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool ysc::YS_Supplication_Class::isExistFivStar()
+{
+	if (p >= 90)
+	{
+		for (int i = p - 90; i < p; p++)
+		{
+			if (lis[i] == 2)
+			{
+				return true;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < p; i++)
+		{
+			if (lis[i] == 2)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool ysc::YS_Supplication_Class::isTiggerFouStarSecurity()
+{
+	if (existFouStar() >= 9)//if (isExistFouStar() == false)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	return false;
+}
+
+bool ysc::YS_Supplication_Class::isTiggerFivStarSecurity()
+{
+	if (existFivStar() >= 89)//if (isExistFivStar() == false)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	return false;
+}
+
+int ysc::YS_Supplication_Class::existFouStar()
+{
+	int res = 0;
+		for (int i = p-1; i > 0; i--)
+		{
+			if (lis[i] >=1)
+			{
+				return res;
+			}
+			else
+			{
+				res++;
+			}
+		}
+	return res;
+}
+
+int ysc::YS_Supplication_Class::existFivStar()
+{
+	int res = 0;
+	for (int i = p - 1; i > 0; i--)
+	{
+		if (lis[i] >= 2)
+		{
+			return res;
+		}
+		else
+		{
+			res++;
+		}
+	}
+	return res;
 }

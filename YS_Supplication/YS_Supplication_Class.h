@@ -16,7 +16,7 @@ namespace ysc
 	{
 		int x;
 		int y;
-
+		bool leftflag = false;
 		MouseParam(int _x,int _y):x(_x),y(_y){}
 	};
 
@@ -43,12 +43,23 @@ namespace ysc
 		static void onMouseCallFunA(int event, int x, int y, int flags, void *param);
 
 		void exit();
-		 
-
+	private:
+		void matToMainMat(Mat img);
+		bool isExistFouStar();
+		bool isExistFivStar();
+		bool isTiggerFouStarSecurity();
+		bool isTiggerFivStarSecurity();
+		int existFouStar();
+		int existFivStar();
 	public:
 
 	private:
 		bool isRunningFlag = true;
+
+		bool supplicationMode1Flag = false;
+		bool supplicationMode10Flag = false;
+
+		ProbabilityList pL;
 		Mat mainDrawCDC;
 		Scalar initializeColor = Scalar(125, 125, 125);
 		char *mainName = (char*)"YS Supplication";
@@ -59,7 +70,13 @@ namespace ysc
 		MouseParam mouseParam= MouseParam(0, 0);
 
 		VideoCapture tmpVid;
-		
+
+		int lis[100] = { -1 };
+		int p = 0;
+
+		string thrStarMp4 = ".\\Res\\ÈýÐÇ.mp4";
+		string fouStarMp4 = ".\\Res\\ËÄÐÇ.mp4";
+		string fivStarMp4 = ".\\Res\\ÎåÐÇ.mp4";
 	};
 }
 

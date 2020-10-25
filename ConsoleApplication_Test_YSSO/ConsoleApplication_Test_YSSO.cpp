@@ -15,7 +15,6 @@ struct YS_Supplication_StarItem
 
 struct YS_Supplication_PermanentItemPool
 {
-	//YS_Supplication_ThrStarItemPool thr;
 	YS_Supplication_StarItem ThrStarItems[13] = { {"武器","弹弓"},{"武器","神射手之誓"},{"武器","鸦羽弓"},{"武器","翡玉法球"},{"武器","讨龙英杰谭"},{"武器","魔导绪论"},{"武器","黑缨枪"},{"武器","以理服人"},{"武器","沐浴龙血的剑"},{"武器","铁影阔剑"},{"武器","飞天御剑"},{"武器","黎明神剑"},{"武器","冷刃"} };
 	YS_Supplication_StarItem FouStarItems[32] = { {"角色","砂糖"},{"角色","重云"},{"角色","诺艾尔"},{"角色","班尼特"},{"角色","菲谢尔"},{"角色","凝光"},{"角色","行秋"},{"角色","北斗"},{"角色","香菱"},{"角色","安柏"},{"角色","雷泽"},{"角色","凯亚"},{"角色","芭芭拉"},{"角色","丽莎"} ,{"武器","弓藏"},{"武器","祭礼弓"},{"武器","绝弦"},{"武器","西风猎弓"},{"武器","昭心"},{"武器","祭礼残章"},{"武器","流浪乐章"},{"武器","西风秘典"},{"武器","西风长枪"},{"武器","匣里灭辰"},{"武器","雨裁"},{"武器","祭礼大剑"},{"武器","钟剑"},{"武器","西风大剑"},{"武器","匣里龙吟"},{"武器","祭礼剑"},{"武器","笛剑"},{"武器","西风剑"} };
 	YS_Supplication_StarItem FivStarItems[15] = { {"角色","刻晴"},{"角色","莫娜"},{"角色","七七"},{"角色","迪卢克"},{"角色","琴"},{"武器","阿莫斯之弓"},{"武器","天空之翼"},{"武器","四风原典"},{"武器","天空之卷"},{"武器","和璞鸢"},{"武器","天空之脊"},{"武器","狼的末路"},{"武器","天空之傲"},{"武器","天空之刃"},{"武器","风鹰剑"} };
@@ -118,6 +117,7 @@ private:
 	int numberOfTypes;
 	int *listOfProbability;
 };
+
 enum YSSO_LX
 {
 	juese = 0,
@@ -227,48 +227,7 @@ private:
 	ProbabilityList PL;
 };
 
-//struct ProbabilityList
-//{
-//	int numberOfTypes;
-//	float *listOfProbability;
-//	ProbabilityList() :ProbabilityList(3, new float[3]{ 0.943,0.051,0.006 }) {}
-//	ProbabilityList(int number)
-//	{
-//		float sum = 0;
-//		numberOfTypes = number;
-//		listOfProbability = new float[numberOfTypes]();
-//		for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
-//		{
-//			listOfProbability[tmp_i] = 1.0f / number;
-//			sum += listOfProbability[tmp_i];
-//		}
-//		if (sum != 1)
-//		{
-//			std::cout << "List Of Probability Sum Should Be Equal To 1! Now Sum As: "<<sum << std::endl;
-//			throw("List Of Probability Sum Should Be Equal To 1!");
-//		}
-//	}
-//	ProbabilityList(int number,float *list)
-//	{
-//		float sum = 0;
-//		numberOfTypes = number;
-//		listOfProbability = new float[numberOfTypes]();
-//		for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
-//		{
-//			listOfProbability[tmp_i] = list[tmp_i];
-//			sum += listOfProbability[tmp_i];
-//		}
-//		if (sum != 1)
-//		{
-//			std::cout << "List Of Probability Sum Should Be Equal To 1! Now Sum As: "<<sum << std::endl;
-//			throw("List Of Probability Sum Should Be Equal To 1!");
-//		}
-//	}
-//	~ProbabilityList()
-//	{
-//		delete []listOfProbability;
-//	}
-//};
+
 
 int fun(int k)
 {
@@ -288,80 +247,50 @@ int fun(int k)
 
 void fun10()
 {
-	ProbabilityList pl, *nl;
+	static ProbabilityList pl;
+	ProbabilityList *nl;
 	nl = new ProbabilityList[3]{ 13,32,15 };
+	static YS_Supplication_PermanentItemPool lis;
 	int len = 10;
 	int re = 0, re2 = 0;
 	for (int i = 0; i < len; i++)
 	{
 		re = pl.getRandKlass();
 		re2 = nl[re].getRandKlass();
-		cout << re << " " << re2 << endl;
+		//cout << re << " " << re2 << endl;
 		switch (re)
 		{
 		case 0:
 		{
-			cout << lis.ThrStarItems[re2].type << " " << lis.ThrStarItems[re2].name << endl;
+			cout <<"三星 "<< lis.ThrStarItems[re2].type << " " << lis.ThrStarItems[re2].name << endl;
 			break;
 		}
 		case 1:
 		{
-			cout << lis.FouStarItems[re2].type << " " << lis.FouStarItems[re2].name << endl;
+			cout << "四星 " << lis.FouStarItems[re2].type << " " << lis.FouStarItems[re2].name << endl;
 			break;
 		}
 		case 2:
 		{
-			cout << lis.FivStarItems[re2].type << " " << lis.FivStarItems[re2].name << endl;
+			cout << "五星 " << lis.FivStarItems[re2].type << " " << lis.FivStarItems[re2].name << endl;
 			break;
 		}
 		default:
 			break;
 		}
-		k[re]++;
+		//k[re]++;
 	}
 }
 int main()
 {
 	int root = 1000;
 	srand(time(NULL));
-	ProbabilityList pl,*nl;
-	nl = new ProbabilityList[3]{ 13,32,15};
-	YS_Supplication_PermanentItemPool lis;
-	string asd = "asdasd";
-	int len = 10;
-	int re = 0,re2=0;
-	int k[3] = { 0 };
-	for (int i = 0; i < len; i++)
+	
+	for (int i = 0; i < 10; i++)
 	{
-		re = pl.getRandKlass();
-		re2 = nl[re].getRandKlass();
-		cout << re <<" "<< re2<< endl;
-		switch (re)
-		{
-		case 0:
-		{
-			cout <<lis.ThrStarItems[re2].type << " " << lis.ThrStarItems[re2].name << endl;
-			break;
-		}
-		case 1:
-		{
-			cout << lis.FouStarItems[re2].type << " " << lis.FouStarItems[re2].name << endl;
-			break;
-		}
-		case 2:
-		{
-			cout << lis.FivStarItems[re2].type << " " << lis.FivStarItems[re2].name << endl;
-			break;
-		}
-		default:
-			break;
-		}
-		k[re]++;
+		fun10();
+		cout << endl;
 	}
-	//cout <<pl.at(0) << " " << pl.at(1) << " " << pl.at(2) << endl;
-	//cout << k[0]*1.0/ len << " " << k[1] * 1.0 / len <<" "<< k[2] * 1.0 / len << endl;
-	cout << k[0] << " " << k[1]  << " " << k[2]  << endl;
-
 
 }
 

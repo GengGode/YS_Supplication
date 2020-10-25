@@ -161,4 +161,101 @@ namespace ysc
 		YS_Supplication_StarItem FivStarItems[15] ={ {"½ÇÉ«","¿ÌÇç"},{"½ÇÉ«","ÄªÄÈ"},{"½ÇÉ«","ÆßÆß"},{"½ÇÉ«","µÏÂ¬¿Ë"},{"½ÇÉ«","ÇÙ"},{"ÎäÆ÷","°¢ÄªË¹Ö®¹­"},{"ÎäÆ÷","Ìì¿ÕÖ®Òí"},{"ÎäÆ÷","ËÄ·çÔ­µä"},{"ÎäÆ÷","Ìì¿ÕÖ®¾í"},{"ÎäÆ÷","ºÍè±ğ°"},{"ÎäÆ÷","Ìì¿ÕÖ®¼¹"},{"ÎäÆ÷","ÀÇµÄÄ©Â·"},{"ÎäÆ÷","Ìì¿ÕÖ®°Á"},{"ÎäÆ÷","Ìì¿ÕÖ®ÈĞ"},{"ÎäÆ÷","·çÓ¥½£"} };
 	};
 
+	class ProbabilityList
+	{
+	public:
+		ProbabilityList() :ProbabilityList(3, new float[3]{ 0.943f,0.051f,0.006f }) {}
+
+		~ProbabilityList()
+		{
+			delete[]listOfProbability;
+		}
+	public:
+		ProbabilityList(int number) :numberOfTypes(number)
+		{
+			sum = 0;
+			listOfProbability = new int[numberOfTypes]();
+			for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
+			{
+				listOfProbability[tmp_i] = ((int)(10000.0f / number)) % 10001;
+				sum += listOfProbability[tmp_i];
+
+			}
+		}
+		ProbabilityList(int number, float *list) :numberOfTypes(number)
+		{
+			sum = 0;
+			listOfProbability = new int[numberOfTypes]();
+			for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
+			{
+				if (list[tmp_i] <= 0 || list[tmp_i] > 1)
+				{
+					throw("Probability cannot be less than zero and cannot be greater than one!");
+				}
+				listOfProbability[tmp_i] = ((int)(list[tmp_i] * 10000)) % 10001;
+				sum += listOfProbability[tmp_i];
+			}
+			if (sum != 10000)
+			{
+				std::cout << "List Of Probability Sum Should Be Equal To 1! Now Sum As: " << sum << std::endl;
+				throw("List Of Probability Sum Should Be Equal To 1!");
+			}
+		}
+		float at(int n)
+		{
+			float res = 0;
+			if (n < 0 || n >= numberOfTypes)
+			{
+				throw("Array element out of bounds!");
+			}
+			else
+			{
+				res = listOfProbability[n] / (1.0f*sum);
+			}
+			return res;
+		}
+		int* list()
+		{
+			int *res = new int[numberOfTypes]();
+			for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
+			{
+				res[tmp_i] = listOfProbability[tmp_i];
+			}
+			return res;
+		}
+		int getRandKlass()
+		{
+			int k = rand() % (sum + 1);//10001;
+			int tmp_Section = 0;
+			for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
+			{
+				tmp_Section = tmp_Section + listOfProbability[tmp_i];
+				if (k < tmp_Section)
+				{
+					//std::cout << k << tmp_Section << std::endl;
+					return tmp_i;
+				}
+			}
+			return 0;
+		}
+		int getKlass(int k)
+		{
+			k = k % (sum + 1);// 10001;
+			int tmp_Section = 0;
+			for (int tmp_i = 0; tmp_i < numberOfTypes; tmp_i++)
+			{
+				tmp_Section = tmp_Section + listOfProbability[tmp_i];
+				if (k < tmp_Section)
+				{
+					//std::cout << k <<" "<< tmp_Section << std::endl;
+					return tmp_i;
+				}
+			}
+			return 0;
+		}
+	private:
+		int sum;
+		int numberOfTypes;
+		int *listOfProbability;
+	};
 }
