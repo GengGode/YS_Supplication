@@ -51,6 +51,7 @@ void ysc::YS_Supplication_Class::show()
 {
 	//drawLable();
 	//cout << mouseParam.x << " " << mouseParam.y << endl;
+	setMouseCallback(mainName, onMouseCallFunA, (void*)&mouseParam);
 	imshow(mainName, mainDrawCDC);
 }
 
@@ -74,7 +75,7 @@ void ysc::YS_Supplication_Class::getCheckTask()
 			vid >> img;
 			dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
 			if (dt < 33 && dt>0)waitKey(33 - dt);
-			cout << mouseParam.x << " " << mouseParam.y << endl;
+			//cout << mouseParam.x << " " << mouseParam.y << endl;
 			if (mouseParam.leftflag)
 			{
 				//950 810 1240 870
@@ -112,29 +113,10 @@ void ysc::YS_Supplication_Class::getCheckTask()
 
 	lis2[p]=pLn[k].getRandKlass();
 
-	switch (k)
-	{
-	case 0:
-	{	cout << "Count: "<<p<<" "<<thrStarMp4 << endl;
-		tmpVid.open(thrStarMp4);
-	break;
-	}
-	case 1:
-	{
-		cout << "Count: " << p << " " << fouStarMp4 << endl;
-		tmpVid.open(fouStarMp4);
-		break;
-	}
-	case 2:
-	{
-		cout << "Count: " << p << " " << fivStarMp4 << endl;
-		tmpVid.open(fivStarMp4);
-		break;
-	}
-	default:
-		tmpVid.open(thrStarMp4);
-		break;
-	}
+
+	cout << "Count: "<<p<<" "<< starsMp4[k] <<" "<< itemsMp4.starsItems[k][lis2[p]].name << endl;
+	tmpVid.open(starsMp4[k]);
+
 	supplicationMode1Flag = true;
 
 }
@@ -203,17 +185,9 @@ void ysc::YS_Supplication_Class::supplicationMode1()
 		matToMainMat(img);
 		vid >> img;
 		dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
-		if (dt < 33)
-		{
-			if (dt > 0)
-			{
-				waitKey(33 - dt);
-			}
-		}
-		//cout << mouseParam.x << " " << mouseParam.y << endl;
+		if (dt < 33 && dt>0)waitKey(33 - dt);
 		if (mouseParam.leftflag)
 		{
-			//1400 860 -200 860 //1500 60 -100 60
 			if (mouseParam.x > (width - 100) && mouseParam.y < 60)
 			{
 				waitKey(100);
@@ -221,6 +195,34 @@ void ysc::YS_Supplication_Class::supplicationMode1()
 			}
 		}
 		//waitKey()
+	}
+	try {
+		cout << itemsMp4.starsItems[lis[p]][lis2[p]].getMp4() << endl;
+		vid.open(itemsMp4.starsItems[lis[p]][lis2[p]].getMp4());
+		vid >> img;
+		while (!img.empty())
+		{
+			t = (double)cv::getTickCount();
+			imshow(mainName, mainDrawCDC);
+			matToMainMat(img);
+			vid >> img;
+			dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
+			if (dt < 33 && dt>0)waitKey(33 - dt);
+
+			if (mouseParam.leftflag)
+			{
+				if (mouseParam.x > (width - 100) && mouseParam.y < 60)
+				{
+					waitKey(100);
+					break;
+				}
+			}
+		}
+	}
+	catch (...)
+	{
+		cout << itemsMp4.starsItems[lis[p]][lis2[p]].getMp4() << endl;
+		return;
 	}
 }
 

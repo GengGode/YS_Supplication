@@ -79,10 +79,8 @@ namespace ysc
 		int p = 0;
 
 		string starsMp4[3] = { ".\\Res\\三星.mp4" , ".\\Res\\四星.mp4" , ".\\Res\\五星.mp4" };
+		YS_Supplication_PermanentItemPool itemsMp4;
 
-		string thrStarMp4 = ".\\Res\\三星.mp4";
-		string fouStarMp4 = ".\\Res\\四星.mp4";
-		string fivStarMp4 = ".\\Res\\五星.mp4";
 	};
 }
 
