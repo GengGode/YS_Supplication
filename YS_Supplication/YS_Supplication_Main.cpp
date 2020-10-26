@@ -18,12 +18,12 @@ int main()
 	while (ck.isRunning())
 	{
 		
-		ck.checkTask();
+		ck.getCheckTask();
 		//if (ck.)
 		ck.runTask();
 		ck.show();
 
-		waitKey(30);
+		//waitKey(30);
 	}
 
 	return 0;

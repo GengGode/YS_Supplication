@@ -30,8 +30,9 @@ void ysc::SetDesktop(char FormName[])
 /* Nop Task. */
 void ysc::YS_Supplication_Class::init()
 {
+	pLn = new ProbabilityList[3]{ 13,32,15 };
 	loadConfigure();
-	//tmpVid.open(".\\Res\\ÎåÐÇ.mp4");
+	tmpVid.open(".\\Res\\ÆíÔ¸.mp4");
 	mainDrawCDC = Mat(height, width, CV_8UC3);
 	mainDrawCDC = initializeColor;
 	namedWindow(mainName);
@@ -54,8 +55,41 @@ void ysc::YS_Supplication_Class::show()
 }
 
 /*  */
-void ysc::YS_Supplication_Class::checkTask()
+void ysc::YS_Supplication_Class::getCheckTask()
 {
+	bool flag = true;
+	double t = 0;
+	int dt = 0;
+	VideoCapture vid;
+	Mat img;
+	while (flag)
+	{
+		vid.open(".\\Res\\ÆíÔ¸.mp4");
+		vid >> img;
+		while (!img.empty())
+		{
+			t = (double)cv::getTickCount();
+			imshow(mainName, mainDrawCDC);
+			matToMainMat(img);
+			vid >> img;
+			dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
+			if (dt < 33 && dt>0)waitKey(33 - dt);
+			cout << mouseParam.x << " " << mouseParam.y << endl;
+			if (mouseParam.leftflag)
+			{
+				//950 810 1240 870
+				//1400 860 -200 860 //1500 60 -100 60
+				if (mouseParam.x > 950 && mouseParam.x < 1240 && mouseParam.y >810 && mouseParam.y < 870)
+				{
+					waitKey(100);
+					//exit();
+					flag = false;
+					break;
+				}
+			}
+		}
+	}
+	
 	int k = 0;
 	p++;
 
@@ -75,6 +109,8 @@ void ysc::YS_Supplication_Class::checkTask()
 	}
 
 	k = lis[p];
+
+	lis2[p]=pLn[k].getRandKlass();
 
 	switch (k)
 	{
@@ -138,13 +174,6 @@ bool ysc::YS_Supplication_Class::loadConfigure()
 void ysc::YS_Supplication_Class::fullScreen()
 {
 	setWindowProperty(mainName, 0, 1);
-
-	//HWND my_hWnd = ::FindWindow(NULL, mainName);
-
-	//MoveWindow(my_hWnd, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), true);
-
-	//SetDesktop(mainName);
-
 }
 
 void ysc::YS_Supplication_Class::supplicationMode1()

@@ -31,7 +31,7 @@ namespace ysc
 		void init();
 		bool isRunning() const;
 		void show();
-		void checkTask();
+		void getCheckTask();
 		void runTask();
 
 	private:
@@ -60,6 +60,9 @@ namespace ysc
 		bool supplicationMode10Flag = false;
 
 		ProbabilityList pL;
+		ProbabilityList *pLn;
+		
+
 		Mat mainDrawCDC;
 		Scalar initializeColor = Scalar(125, 125, 125);
 		char *mainName = (char*)"YS Supplication";
@@ -72,7 +75,10 @@ namespace ysc
 		VideoCapture tmpVid;
 
 		int lis[100] = { -1 };
+		int lis2[100] = { -1 };
 		int p = 0;
+
+		string starsMp4[3] = { ".\\Res\\三星.mp4" , ".\\Res\\四星.mp4" , ".\\Res\\五星.mp4" };
 
 		string thrStarMp4 = ".\\Res\\三星.mp4";
 		string fouStarMp4 = ".\\Res\\四星.mp4";
