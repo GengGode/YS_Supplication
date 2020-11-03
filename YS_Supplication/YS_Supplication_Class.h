@@ -59,7 +59,7 @@ namespace ysc
 		bool supplicationMode1Flag = false;
 		bool supplicationMode10Flag = false;
 
-		ProbabilityList pL;
+		ProbabilityList pL= ProbabilityList(3, new float[3]{ 0.543f,0.351f,0.106f });
 		ProbabilityList *pLn;
 		
 
