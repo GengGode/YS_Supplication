@@ -24,12 +24,21 @@
     <ClCompile Include="YS_Supplication_Object.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="YS_Supplication_UserLib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YS_Supplication_Class.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="YS_Supplication_Object.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="YS_Supplication_Main.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="YS_Supplication_UserLib.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

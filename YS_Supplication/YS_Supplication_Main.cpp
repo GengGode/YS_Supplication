@@ -17,7 +17,7 @@ int main()
 
 	while (ck.isRunning())
 	{
-		
+
 		ck.getCheckTask();
 		//if (ck.)
 		ck.runTask();

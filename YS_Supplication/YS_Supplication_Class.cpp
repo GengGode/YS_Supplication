@@ -44,6 +44,10 @@ void ysc::YS_Supplication_Class::init()
 /* return isRunning Flag. */
 bool ysc::YS_Supplication_Class::isRunning() const
 {
+	//if (FindWindow(NULL, mainName) == nullptr)
+	//{
+	//	return false;
+	//}
 	return isRunningFlag;
 }
 
@@ -74,7 +78,7 @@ void ysc::YS_Supplication_Class::getCheckTask()
 			matToMainMat(img);
 			vid >> img;
 			dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
-			if (dt < 33 && dt>0)waitKey(33 - dt);
+			if (dt < 33 && dt>=0)waitKey(33 - dt);
 			//cout << mouseParam.x << " " << mouseParam.y << endl;
 			if (mouseParam.leftflag)
 			{
@@ -114,7 +118,7 @@ void ysc::YS_Supplication_Class::getCheckTask()
 	lis2[p]=pLn[k].getRandKlass();
 
 
-	cout << "Count: "<<p<<" "<< starsMp4[k] <<" "<< itemsMp4.starsItems[k][lis2[p]].name << endl;
+	cout << "Count: "<<p<<" "<< k+3 <<" "<< lis2[p] << endl;
 	tmpVid.open(starsMp4[k]);
 
 	supplicationMode1Flag = true;
@@ -185,7 +189,7 @@ void ysc::YS_Supplication_Class::supplicationMode1()
 		matToMainMat(img);
 		vid >> img;
 		dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
-		if (dt < 33 && dt>0)waitKey(33 - dt);
+		if (dt < 33 && dt>=0)waitKey(33 - dt);
 		if (mouseParam.leftflag)
 		{
 			if (mouseParam.x > (width - 100) && mouseParam.y < 60)
@@ -196,9 +200,9 @@ void ysc::YS_Supplication_Class::supplicationMode1()
 		}
 		//waitKey()
 	}
-	try {
-		cout << itemsMp4.starsItems[lis[p]][lis2[p]].getMp4() << endl;
-		vid.open(itemsMp4.starsItems[lis[p]][lis2[p]].getMp4());
+	cout << itemsMp4.starsItems[lis[p]][lis2[p]].name << endl;
+	if (vid.open(itemsMp4.starsItems[lis[p]][lis2[p]].getMp4()))
+	{
 		vid >> img;
 		while (!img.empty())
 		{
@@ -207,7 +211,7 @@ void ysc::YS_Supplication_Class::supplicationMode1()
 			matToMainMat(img);
 			vid >> img;
 			dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
-			if (dt < 33 && dt>0)waitKey(33 - dt);
+			if (dt < 33 && dt>=0)waitKey(33 - dt);
 
 			if (mouseParam.leftflag)
 			{
@@ -219,11 +223,36 @@ void ysc::YS_Supplication_Class::supplicationMode1()
 			}
 		}
 	}
-	catch (...)
+	else
 	{
-		cout << itemsMp4.starsItems[lis[p]][lis2[p]].getMp4() << endl;
-		return;
+		int k = 0;
+		mainDrawCDC = Scalar(0, 0, 0);
+		putTextZH(mainDrawCDC, itemsMp4.starsItems[lis[p]][lis2[p]].name.data(), Point(cvCeil(mainDrawCDC.cols / 2), cvCeil(mainDrawCDC.rows / 2)), Scalar(0, 255, 0), 80, "»ªÎÄÐÐ¿¬");
+
+		//putTextZH(mainDrawCDC, (itemsMp4.starsItems[lis[p]][lis2[p]].name), Point(cvCeil(mainDrawCDC.cols / 2), cvCeil(mainDrawCDC.rows/2)), FONT_HERSHEY_PLAIN, 100, Scalar(0, 0, 255), 10, LINE_AA);
+	
+		while (k<6*30)
+		{
+			k++;
+
+			t = (double)cv::getTickCount();
+
+			imshow(mainName, mainDrawCDC);
+			
+			dt = (int)(((double)cv::getTickCount() - t) / cv::getTickFrequency() * 1000);
+			if (dt < 33 && dt>=0)waitKey(33 - dt);
+
+			if (mouseParam.leftflag)
+			{
+				if (mouseParam.x > (width - 100) && mouseParam.y < 60)
+				{
+					waitKey(100);
+					break;
+				}
+			}
+		}
 	}
+	return;
 }
 
 void ysc::YS_Supplication_Class::supplicationMode10()

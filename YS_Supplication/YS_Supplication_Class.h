@@ -3,6 +3,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "YS_Supplication_Object.h"
+#include "YS_Supplication_UserLib.h"
 using namespace ysc;
 using namespace std;
 using namespace cv;
@@ -59,7 +60,7 @@ namespace ysc
 		bool supplicationMode1Flag = false;
 		bool supplicationMode10Flag = false;
 
-		ProbabilityList pL= ProbabilityList(3, new float[3]{ 0.543f,0.351f,0.106f });
+		ProbabilityList pL= ProbabilityList(3, new float[3]{ 0.943f,0.051f,0.006f });
 		ProbabilityList *pLn;
 		
 

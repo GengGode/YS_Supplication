@@ -226,10 +226,13 @@
     <ClCompile Include="YS_Supplication_Class.cpp" />
     <ClCompile Include="YS_Supplication_Main.cpp" />
     <ClCompile Include="YS_Supplication_Object.cpp" />
+    <ClCompile Include="YS_Supplication_UserLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YS_Supplication_Class.h" />
+    <ClInclude Include="YS_Supplication_Main.h" />
     <ClInclude Include="YS_Supplication_Object.h" />
+    <ClInclude Include="YS_Supplication_UserLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
