@@ -149,8 +149,8 @@ bool ysc::YS_Supplication_Class::loadConfigure()
 	}
 	else
 	{
-		width = 1600;
-		height = 900;
+		width = 1920;
+		height = 1080;
 		initializeColor = Scalar(0, 0, 0);
 		return false;
 	}
